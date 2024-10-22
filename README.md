@@ -1,62 +1,75 @@
 
-# RandomForest Model for Credit Card Fraud Detection
+# Credit Card Fraud Detection Using RandomForest Classifier
 
-This project uses a **RandomForestClassifier** to detect credit card fraud using a dataset that contains a highly imbalanced set of transactions.
+This project demonstrates a machine learning pipeline to detect credit card fraud using the RandomForest Classifier. The dataset used in this project is the **Credit Card Fraud Detection** dataset, where the task is to identify fraudulent transactions.
 
-## Project Structure
+## Dataset
 
-1. **Data Preprocessing**: 
-   - Downsamples the majority (non-fraud) class to maintain a 10:1 ratio of non-fraud to fraud transactions.
-   - Features include time-related features like the hour of the transaction and log transformation of the amount to improve distribution.
+The dataset used is `creditcard.csv`. It consists of credit card transactions, with a binary target label indicating whether a transaction is fraudulent (1) or not (0). The dataset is highly imbalanced, with a very low proportion of fraud cases.
 
-2. **Model Selection and Evaluation**:
-   - **RandomForestClassifier** is trained with varying class weights and threshold values using cross-validation to determine the best-performing model based on F1-score for fraud detection (class 1).
-   - Cross-validation is performed using 5 folds.
+Key features of the dataset include:
 
-3. **Grid Search**:
-   - **Class Weights**: Varies from 1.01 to 2.11 in steps of 0.01 to handle the imbalance in the dataset.
-   - **Threshold**: Ranges from 0.495 to 0.505 in steps of 0.005 to find the optimal classification decision boundary for fraud transactions.
+- **Amount**: The transaction amount.
+- **Time**: The time elapsed between this transaction and the first transaction in the dataset.
+- **V1-V28**: Principal component analysis (PCA) transformed features.
 
-4. **Metrics**:
-   - Metrics tracked include F1-score, precision, recall, and ROC-AUC, specifically for fraud detection.
+### Preprocessing Steps
 
-5. **Model Evaluation**:
-   - Once the best model is selected through cross-validation, it is evaluated on the test set using the best threshold and class weight.
+1. **Log Transform**: The `Amount` feature is log-transformed to reduce skewness.
+2. **Hour Extraction**: The `Time` feature is converted to extract the hour of the day.
+3. **Data Downsampling**: To address class imbalance, the dataset is downsampled to a 10:1 ratio of non-fraud to fraud cases.
 
-## Model Training and Performance
+### Environment
 
-### Model Configuration:
-- **Number of CPU cores used**: 12
-- **Total physical CPU cores available**: 24
-- **Cross-validation splits**: 5
-- **Number of class weights and threshold configurations tried**: 1665
+The model was trained using the following environment:
 
-### Training Duration:
-- Overall Model Training and Tuning Start Time: 2024-10-21 21:00:48
-- Overall Model Training and Tuning End Time: 2024-10-21 21:06:22
-- Training duration: 5 minutes and 34 seconds
+- Python version: 3.10
+- RandomForestClassifier model was used with grid search to tune hyperparameters such as class weights and thresholds.
 
-### Best Model Configuration:
+## Model Training
+
+### RandomForest Classifier
+
+The model selection and evaluation were performed using the **RandomForest Classifier**. A grid search was conducted over a range of class weights and decision thresholds for classifying fraud. The model was evaluated using k-fold cross-validation.
+
+- **Class Weight**: Range of class weights was tested to handle class imbalance.
+- **Threshold**: Various decision thresholds were tested to classify fraud transactions.
+
+### Performance Metrics
+
+The model was evaluated using the following metrics:
+
+- **F1-Score (Fraud)**: The harmonic mean of precision and recall for the fraud class.
+- **Precision (Fraud)**: The proportion of correctly identified fraud cases.
+- **Recall (Fraud)**: The proportion of actual fraud cases correctly identified.
+- **ROC-AUC**: The Area Under the Receiver Operating Characteristic Curve.
+
+### Model Training Results
+
 - **Best Class Weight**: 1.07
 - **Best Threshold**: 0.495
-- **Best F1-score (Fraud)** from Cross-Validation: 0.90
+- **Best F1-Score (Fraud)** from Cross-Validation: 0.90
 - **Best Precision (Fraud)** from Cross-Validation: 0.99
 - **Best Recall (Fraud)** from Cross-Validation: 0.82
-- Model saved at `./models/credit-card-fraud-detection-randomforest.pkl`
 
-### Test Set Performance:
-- **Final F1-score (Fraud)** from Test data: 0.93
-- **Final Precision (Fraud)** from Test data: 1.00
-- **Final Recall (Fraud)** from Test data: 0.87
-- **Final Model ROC-AUC Score** from Test data: 0.99
+### Test Set Evaluation
 
-### Final Confusion Matrix:
+After tuning, the model was evaluated on the test set:
+
+- **F1-Score (Fraud)**: 0.93
+- **Precision (Fraud)**: 1.00
+- **Recall (Fraud)**: 0.87
+- **ROC-AUC**: 0.99
+
+### Confusion Matrix
+
 ```
 [[985   0]
  [ 13  85]]
 ```
 
-### Classification Report:
+### Classification Report
+
 ```
                precision    recall  f1-score   support
 
@@ -67,6 +80,24 @@ This project uses a **RandomForestClassifier** to detect credit card fraud using
    macro avg       0.99      0.93      0.96      1083
 weighted avg       0.99      0.99      0.99      1083
 ```
+
+## How to Run
+
+1. Clone the repository.
+2. Install the required dependencies using `requirements.txt`.
+3. Run the `randomforest_model.py` script to train the model and evaluate its performance.
+4. The trained model is saved in the `./models/` directory.
+5. The performance plots and diagrams are saved in the `./plots/` directory.
+
+```bash
+pip install -r requirements.txt
+jupyter notebook credit-card-fraud-detection-by-ml-randomforest.ipynb
+```
+
+## Requirements
+
+The `requirements.txt` file includes all necessary dependencies.
+
 
 ## Project Structure
 
@@ -96,3 +127,7 @@ The project includes various visualizations for model performance:
 ## Conclusion
 
 The best-performing **RandomForestClassifier** model achieved a **Final F1-score of 0.93** for detecting fraud on the test set. While the precision for fraud detection was perfect (1.00), the recall of 0.87 indicates some fraud transactions were missed. The model showed a very strong overall performance with a **ROC-AUC score of 0.99**, indicating that it can distinguish between fraud and non-fraud transactions very effectively.
+
+
+The performance of this RandomForest model can now be compared to the **XGBoost** model, which was also tested on the same dataset.
+
