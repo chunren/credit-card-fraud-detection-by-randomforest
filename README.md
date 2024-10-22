@@ -4,8 +4,9 @@
 This project demonstrates a machine learning pipeline to detect credit card fraud using the RandomForest Classifier. The dataset used in this project is the **Credit Card Fraud Detection** dataset, where the task is to identify fraudulent transactions.
 
 ## Dataset
+The dataset used in this project is the [Kaggle Credit Card Fraud Detection dataset](https://www.kaggle.com/mlg-ulb/creditcardfraud). It contains transactions made by credit cards in September 2013 by European cardholders.
 
-The dataset used is `creditcard.csv`. It consists of credit card transactions, with a binary target label indicating whether a transaction is fraudulent (1) or not (0). The dataset is highly imbalanced, with a very low proportion of fraud cases.
+The dataset includes 284,807 transactions, among which only 492 are frauds, making the dataset highly imbalanced.
 
 Key features of the dataset include:
 
